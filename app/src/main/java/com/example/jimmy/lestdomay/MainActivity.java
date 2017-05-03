@@ -4,6 +4,7 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -39,7 +40,6 @@ public class MainActivity extends AppCompatActivity {
         editEmail = (EditText) findViewById(R.id.email);
         mFirebasebtn = (Button)findViewById(R.id.submit);
         mUpload = (Button)findViewById(R.id.upload);
-
         mFirebasebtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -54,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+        //Testing some code, will work on it later
 //        mUpload.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
@@ -80,5 +81,11 @@ public class MainActivity extends AppCompatActivity {
 //        });
 
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu,menu);
+        return super.onCreateOptionsMenu(menu);
     }
 }
