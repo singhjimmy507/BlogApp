@@ -1,25 +1,52 @@
 package com.example.jimmy.lestdomay;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.media.Image;
 import android.net.Uri;
 import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
+import android.support.annotation.VisibleForTesting;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
+
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+
+import static android.app.Activity.RESULT_OK;
 
 public class PostActivity extends AppCompatActivity {
 
     private ImageButton mImage;
+    private EditText mTitle, mPost;
+    private Button mSubmit;
+    private Uri imageUri=null;
     private static final int GALLERY_REQUEST =1;
+    private StorageReference mStorage;
+    private ProgressDialog mProgress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post);
+
         mImage = (ImageButton)findViewById(R.id.imagePost);
+
+        mTitle = (EditText)findViewById(R.id.title);
+        mPost = (EditText) findViewById(R.id.post);
+
+        mSubmit = (Button) findViewById(R.id.Submit);
+
+        mStorage = FirebaseStorage.getInstance().getReference(); //will upload images in the root directory
+        mProgress = new ProgressDialog(this); //Adding progress dialog
+
         mImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -30,18 +57,48 @@ public class PostActivity extends AppCompatActivity {
 
             }
         });
+        mSubmit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startPosting(); // uploading it in database
+            }
+
+
+        });
+
     }
+    private void startPosting() {
+        mProgress.setMessage("Uploading to blog...");
+        mProgress.show();
+        String title_value = mPost.getText().toString().trim(); //accessing value of title
+        String desc_value= mTitle.getText().toString().trim();
+        //Checking if strings are empty
+        if(!TextUtils.isEmpty(title_value)&& !TextUtils.isEmpty(desc_value)&&imageUri!=null){
+            StorageReference filepath = mStorage.child("Blog_Images").child(imageUri.getLastPathSegment());
+            filepath.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+//                    @SuppressWarnings(VisibleForTests);
+                    @SuppressWarnings("VisibleForTests") Uri downloadUrl = taskSnapshot.getDownloadUrl();
+
+                    mProgress.dismiss();
+                }
+            });
+        }
+    }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         if(requestCode==GALLERY_REQUEST && resultCode==RESULT_OK){
-            Uri imageUri = data.getData();
+            //declaring Uri globally as it needs to be accessed in startPosting()
+            imageUri = data.getData();
             mImage.setImageURI(imageUri);
         }
 
-
-
     }
+
 }

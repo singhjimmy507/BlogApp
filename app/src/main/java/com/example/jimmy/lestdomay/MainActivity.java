@@ -3,6 +3,7 @@ package com.example.jimmy.lestdomay;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -24,20 +25,20 @@ import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Button mFirebasebtn, mUpload;
-    private EditText editName, editEmail;
-
-    private DatabaseReference mDatabase;
-    private StorageReference mStorageRef;
-
+//    private Button mFirebasebtn, mUpload;
+//    private EditText editName, editEmail;
+//
+//    private DatabaseReference mDatabase;
+//    private StorageReference mStorageRef;
+//private static final int PERMISSIONS_REQUEST_READ_STORAGE = 100;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        mDatabase = FirebaseDatabase.getInstance().getReference().child("Users");//points to root directory of database
-        mStorageRef = FirebaseStorage.getInstance().getReference();
+//        ActivityCompat.requestPermissions(this,new String[]{},PERMISSIONS_REQUEST_READ_STORAGE);
+//        mDatabase = FirebaseDatabase.getInstance().getReference();//points to root directory of database
+//        mStorageRef = FirebaseStorage.getInstance().getReference();
 //        editName = (EditText) findViewById(R.id.name);
 //        editEmail = (EditText) findViewById(R.id.email);
 //        mFirebasebtn = (Button)findViewById(R.id.submit);
