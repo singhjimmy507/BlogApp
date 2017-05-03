@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "458698276589",
+    "firebase_url": "https://lestdomay.firebaseio.com",
+    "project_id": "lestdomay",
+    "storage_bucket": "lestdomay.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:458698276589:android:d0d3edda6e42fd57",
+        "android_client_info": {
+          "package_name": "com.example.jimmy.lestdomay"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "458698276589-44jk13i4g18t968cig9emqg8pndbtoa2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.jimmy.lestdomay",
+            "certificate_hash": "f41d27a89e6abfc8555ae1e29086c86ce5b8f07d"
+          }
+        },
+        {
+          "client_id": "458698276589-nbos5so1vauvfatc0069bdngd2ufr2f8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA7tpa-VFZ5JNZ3mvEYsuPWgcIC6vDo_L4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "458698276589-nbos5so1vauvfatc0069bdngd2ufr2f8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
