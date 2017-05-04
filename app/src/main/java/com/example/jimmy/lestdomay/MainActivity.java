@@ -1,5 +1,6 @@
 package com.example.jimmy.lestdomay;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.annotation.NonNull;
@@ -11,10 +12,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.squareup.picasso.Picasso;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -36,7 +39,8 @@ public class MainActivity extends AppCompatActivity {
         //Set Layout
         mBlogList.setHasFixedSize(true);
         mBlogList.setLayoutManager(new LinearLayoutManager(this));
-        mDatabase = FirebaseDatabase.getInstance().getReference().child("Blog"); // get everything in blog child - posts
+        mDatabase = FirebaseDatabase.getInstance().getReference().child("Blog");
+        mDatabase = FirebaseDatabase.getInstance().getReference().child("Blog");// get everything in blog child - posts
     }
 
     @Override
@@ -56,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
             protected void populateViewHolder(BlogViewHolder viewHolder, Blog model, int position) {
                 viewHolder.setTitle(model.getTitle());
                 viewHolder.setDescription(model.getDescription());
-
+                viewHolder.setImage(getApplicationContext(),model.getImage());
             }
         };
                 mBlogList.setAdapter(firebaseRecyclerAdapter);
@@ -82,6 +86,10 @@ public class MainActivity extends AppCompatActivity {
             post_desc.setText(description);
         }
         //for image in blog_cardview.xml
+        public void setImage(Context ctx, String image){
+            ImageView postImage= (ImageView) mView.findViewById(R.id.post_image);
+            Picasso.with(ctx).load(image).into(postImage);
+        }
     }
 
     @Override

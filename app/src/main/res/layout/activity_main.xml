@@ -25,8 +25,8 @@
         <!--tools:ignore="MissingConstraints"></android.support.v7.widget.RecyclerView>-->
 
     <android.support.v7.widget.RecyclerView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="344dp"
+        android:layout_height="495dp"
         android:id="@id/blog_list"
         android:scrollbars="vertical"
         tools:layout_editor_absoluteX="8dp"
