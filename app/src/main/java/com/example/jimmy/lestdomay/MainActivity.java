@@ -2,9 +2,6 @@ package com.example.jimmy.lestdomay;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
-import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -23,13 +20,7 @@ import com.squareup.picasso.Picasso;
 public class MainActivity extends AppCompatActivity {
 
     private RecyclerView mBlogList;
-
-//    private Button mFirebasebtn, mUpload;
-//    private EditText editName, editEmail;
-//
     private DatabaseReference mDatabase;
-//    private StorageReference mStorageRef;
-//private static final int PERMISSIONS_REQUEST_READ_STORAGE = 100;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
