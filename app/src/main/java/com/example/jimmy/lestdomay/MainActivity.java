@@ -6,29 +6,25 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
+import android.widget.TextView;
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
 
-import java.io.File;
-import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity {
+
+    private RecyclerView mBlogList;
 
 //    private Button mFirebasebtn, mUpload;
 //    private EditText editName, editEmail;
 //
-//    private DatabaseReference mDatabase;
+    private DatabaseReference mDatabase;
 //    private StorageReference mStorageRef;
 //private static final int PERMISSIONS_REQUEST_READ_STORAGE = 100;
 
@@ -36,54 +32,56 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-//        ActivityCompat.requestPermissions(this,new String[]{},PERMISSIONS_REQUEST_READ_STORAGE);
-//        mDatabase = FirebaseDatabase.getInstance().getReference();//points to root directory of database
-//        mStorageRef = FirebaseStorage.getInstance().getReference();
-//        editName = (EditText) findViewById(R.id.name);
-//        editEmail = (EditText) findViewById(R.id.email);
-//        mFirebasebtn = (Button)findViewById(R.id.submit);
-//        mUpload = (Button)findViewById(R.id.upload);
-//        mFirebasebtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//            //Create child in root object. Assign some value to database
-//                String name = editName.getText().toString().trim();
-//                String email = editEmail.getText().toString().trim();
-//
-//                HashMap<String, String> credentials = new HashMap <String, String>();
-//                credentials.put("Name",name);
-//                credentials.put("Email",email);
-//                mDatabase.push().setValue(credentials);
-//
-//            }
-//        });
-        //Testing some code, will work on it later
-//        mUpload.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Uri file = Uri.fromFile(new File("path/to/images/rivers.jpg"));
-//                StorageReference riversRef = mStorageRef.child("images/rivers.jpg");
-//
-//                riversRef.putFile(file)
-//                        .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-//                            @Override
-//                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-//                                // Get a URL to the uploaded content
-////                                Uri downloadUrl = taskSnapshot.getDownloadUrl();
-//
-//                            }
-//                        })
-//                        .addOnFailureListener(new OnFailureListener() {
-//                            @Override
-//                            public void onFailure(@NonNull Exception exception) {
-//                                // Handle unsuccessful uploads
-//                                // ...
-//                            }
-//                        });
-//            }
-//        });
+        mBlogList = (RecyclerView)findViewById(R.id.blog_list);
+        //Set Layout
+        mBlogList.setHasFixedSize(true);
+        mBlogList.setLayoutManager(new LinearLayoutManager(this));
+        mDatabase = FirebaseDatabase.getInstance().getReference().child("Blog"); // get everything in blog child - posts
+    }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        //Takes 4 parameters for FirebaseRecycler adapter - class returning title,desc,image
+        //-the layout (blog_cardview)
+        //Class returning title,image,desc from blog_cardview
+        //Firebase Database referece
+        FirebaseRecyclerAdapter<Blog,BlogViewHolder> firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Blog, BlogViewHolder>(
+                Blog.class,
+                R.layout.blog_cardview,
+                BlogViewHolder.class,
+                mDatabase) {
+            @Override
+            //Using getters and setters, this method fills in information for title, desc, image
+            protected void populateViewHolder(BlogViewHolder viewHolder, Blog model, int position) {
+                viewHolder.setTitle(model.getTitle());
+                viewHolder.setDescription(model.getDescription());
 
+            }
+        };
+                mBlogList.setAdapter(firebaseRecyclerAdapter);
+    }
+
+    //Creating a class using Recycler view to get details from blog_cardview.xml
+    //Object consisting of title, desc, image will be passing into Firebase Recycler adapter
+    public static class BlogViewHolder extends RecyclerView.ViewHolder{
+
+        View mView;
+        public BlogViewHolder(View itemView) {
+            super(itemView);
+            mView = itemView;
+        }
+        //for title in blog_cardview.xml
+        public void setTitle(String title){
+            TextView post_title = (TextView) mView.findViewById(R.id.post_title);
+            post_title.setText(title);
+        }
+        //for title in blog_cardview.xml
+        public void setDescription(String description){
+            TextView post_desc = (TextView) mView.findViewById(R.id.post_desc);
+            post_desc.setText(description);
+        }
+        //for image in blog_cardview.xml
     }
 
     @Override
