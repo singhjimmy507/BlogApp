@@ -28,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
 
     private RecyclerView mBlogList;
     private DatabaseReference mDatabase;
+    private DatabaseReference mDatabaseUsers;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
     private static final String TAG = "MainActivity";
@@ -42,8 +43,8 @@ public class MainActivity extends AppCompatActivity {
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user =  firebaseAuth.getCurrentUser();
                 if (user ==null){
-                    //User is signed in
-                    Intent loginIntent = new Intent(MainActivity.this, RegisterActivity.class);
+
+                    Intent loginIntent = new Intent(MainActivity.this, LoginActivity.class);
                     loginIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(loginIntent);
 
@@ -52,6 +53,8 @@ public class MainActivity extends AppCompatActivity {
         };
 
         mDatabase = FirebaseDatabase.getInstance().getReference().child("Blog");
+        mDatabaseUsers = FirebaseDatabase.getInstance().getReference().child("Users");
+        mDatabaseUsers.keepSynced(true);
         mDatabase.keepSynced(true);
         mBlogList = (RecyclerView)findViewById(R.id.blog_list);
         //Set Layout

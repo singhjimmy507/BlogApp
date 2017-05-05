@@ -40,11 +40,19 @@ public class RegisterActivity extends AppCompatActivity {
         email =(EditText)findViewById(R.id.editEmail);
         password = (EditText) findViewById(R.id.editPassword);
         signup = (Button) findViewById(R.id.btnRegister);
+        login = (Button) findViewById(R.id.btnLogin);
 
         signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startRegister();
+            }
+        });
+
+        login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
             }
         });
 
