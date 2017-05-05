@@ -3,4 +3,5 @@
     <item name="action_add" type="id">action_add</item>
     <item name="action_settings" type="id">action_settings</item>
     <item name="blog_list" type="id">blog_list</item>
+    <item name="action_logout" type="id">action_logout</item>
 </resources>
